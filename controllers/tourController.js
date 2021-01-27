@@ -10,7 +10,18 @@ exports.checkID = (req, res, next, val) => {
   if (id > tours.length) {
     return res.status(404).json({
       status: 'fail',
-      messaage: 'Invalid ID',
+      message: 'Invalid ID',
+    });
+  }
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  const existingProperties = req.body.name && req.body.price
+  if (!existingProperties) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Missing name or price',
     });
   }
   next();
