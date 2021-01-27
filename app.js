@@ -42,6 +42,22 @@ app.get('/api/v1/tours/:id', (req, res) => {
   });
 });
 
+app.patch('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1 // умножим на 1 для конвертации в число из строки
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      messaage: 'Invalid ID'
+    })
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour: '<Updated tour here...>'
+    }
+  });
+});
+
 app.post('/api/v1/tours', (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = { id: newId, ...req.body };
