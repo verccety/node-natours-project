@@ -52,7 +52,7 @@ const createTour = (req, res) => {
       });
     }
   );
-}
+};
 
 const updateTour = (req, res) => {
   const id = req.params.id * 1; // умножим на 1 для конвертации в число из строки
@@ -68,7 +68,7 @@ const updateTour = (req, res) => {
       tour: '<Updated tour here...>',
     },
   });
-}
+};
 
 const deleteTour = (req, res) => {
   const id = req.params.id * 1; // умножим на 1 для конвертации в число из строки
@@ -82,14 +82,15 @@ const deleteTour = (req, res) => {
     status: 'success',
     data: null,
   });
-}
+};
 
-app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getTour);
-app.post('/api/v1/tours', createTour);
-app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour);
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
 
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
