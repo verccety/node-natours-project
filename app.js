@@ -1,17 +1,22 @@
 const express = require('express');
 const fs = require('fs');
+const morgan = require('morgan');
 
+// 1) MIDDLEWARES
 const app = express();
-app.use(express.json());
 
-app.use((req,res,next) => {
-  req.requestTime = new Date().toUTCString()
-  next() // next обязательный параметр для передачи управления по цепочке след. middleware
-})
+app.use(express.json());
+app.use(morgan('dev'))
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toUTCString();
+  next(); // next обязательный параметр для передачи управления по цепочке след. middleware
+});
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+// 2) ROUTE HANDLERS
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -90,6 +95,7 @@ const deleteTour = (req, res) => {
   });
 };
 
+// 3) ROUTES
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 
 app
@@ -98,6 +104,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// 4) START SERVER
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
