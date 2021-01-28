@@ -68,7 +68,7 @@ exports.createTour = async (request, response) => {
 
 exports.updateTour = async (request, response) => {
   try {
-    const tour = await Tour.findOneAndUpdate(request.params.id, request.body, {
+    const tour = await Tour.findByIdAndUpdate(request.params.id, request.body, {
       new: true,
       runValidators: true,
     });
@@ -79,16 +79,24 @@ exports.updateTour = async (request, response) => {
       },
     });
   } catch (error) {
-    response.status(400).json({
+    response.status(404).json({
       status: 'fail',
       message: error,
     });
   }
 };
 
-exports.deleteTour = (request, response) => {
-  response.status(204).json({
-    status: 'success',
-    data: undefined,
-  });
+exports.deleteTour = async (request, response) => {
+  try {
+    await Tour.findByIdAndDelete(request.params.id);
+    response.status(204).json({
+      status: 'success',
+      data: undefined,
+    });
+  } catch (error) {
+    response.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
 };
