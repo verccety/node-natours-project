@@ -14,6 +14,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(() => {});
 
@@ -35,6 +36,20 @@ const tourSchema = new mongoose.Schema({
 
 const Tour = mongoose.model('Tour', tourSchema);
 
+const testTour = new Tour({
+  name: 'The Forest Hiker',
+  rating: 4.7,
+  price: 497,
+});
+
+testTour
+  .save()
+  .then((document) => {
+    console.log(document);
+  })
+  .catch((error) => {
+    console.log('Error:', error);
+  });
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   // eslint-disable-next-line no-console
