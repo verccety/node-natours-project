@@ -4,17 +4,6 @@ const Tour = require('../models/tourModel');
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 // );
 
-exports.checkBody = (request, response, next) => {
-  const existingProperties = request.body.name && request.body.price;
-  if (!existingProperties) {
-    return response.status(400).json({
-      status: 'fail',
-      message: 'Missing name or price',
-    });
-  }
-  next();
-};
-
 exports.getAllTours = (request, response) => {
   response.status(200).json({
     status: 'success',
@@ -37,13 +26,21 @@ exports.getTour = (request, response) => {
   // });
 };
 
-exports.createTour = (request, response) => {
-  response.status(201).json({
-    status: 'success',
-    // data: {
-    //   tour: newTour,
-    // },
-  });
+exports.createTour = async (request, response) => {
+  try {
+    const newTour = await Tour.create(request.body);
+    response.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour,
+      },
+    });
+  } catch (error) {
+    response.status(400).json({
+      status: 'fail',
+      message: 'Invalid data sent!', //do not use in production like that!
+    });
+  }
 };
 
 exports.updateTour = (request, response) => {
