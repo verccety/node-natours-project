@@ -4,19 +4,42 @@ const Tour = require('../models/tourModel');
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 // );
 
-exports.getAllTours = (request, response) => {
-  response.status(200).json({
-    status: 'success',
-    // results: tours.length, // best practice, not necessary, for mult. obj in array
-    // data: {
-    //   tours: tours,
-    // },
-  });
+exports.getAllTours = async (request, response) => {
+  try {
+    const tours = await Tour.find();
+
+    response.status(200).json({
+      status: 'success',
+      results: tours.length, // best practice, not necessary, for mult. obj in array
+      data: {
+        tours,
+      },
+    });
+  } catch (error) {
+    response.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
 };
 
-exports.getTour = (request, response) => {
-  const id = request.params.id * 1; // умножим на 1 для конвертации в число из строки
-  // const tour = tours.find((element) => element.id === id);
+exports.getTour = async (request, response) => {
+  try {
+    const tour = await Tour.findById(request.params.id); // equal to Tour.findOne({id: request.params.id})
+    response.status(200).json({
+      status: 'success',
+      results: tour.length, // best practice, not necessary, for mult. obj in array
+      data: {
+        tour,
+      },
+    });
+  } catch (error) {
+    response.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
+
   // response.status(200).json({
   //   status: 'success',
   //   requestedAt: request.requestTime,
@@ -38,7 +61,7 @@ exports.createTour = async (request, response) => {
   } catch (error) {
     response.status(400).json({
       status: 'fail',
-      message: 'Invalid data sent!', //do not use in production like that!
+      message: error,
     });
   }
 };
