@@ -7,19 +7,27 @@ const Tour = require('../models/tourModel');
 exports.getAllTours = async (request, response) => {
   try {
     // BUILD QUERY
-    // 1) Filtering
+    // 1A) Filtering
     const queryObject = { ...request.query };
     const excludedField = ['page', 'sort', 'limit', 'fields'];
     excludedField.forEach((element) => delete queryObject[element]);
 
-    // 2) Advanced filtering
+    // 1B) Advanced filtering
     let queryString = JSON.stringify(queryObject);
     queryString = queryString.replace(
       /\b(gte|gt|lt|lte)\b/g,
       (match) => `$${match}`
     );
+    let query = Tour.find(JSON.parse(queryString)); // сохраняем сначала в query, а не сразу в document, чтобы иметь восможность chain последующие запросы
 
-    const query = Tour.find(JSON.parse(queryString)); // сохраняем сначала в query, а не сразу в document, чтобы иметь восможность chain последующие запросы
+    //2) Sorting
+    if (request.query.sort) {
+      const sortBy = request.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
+
     //const query = await Tour.find ().where('duration').equals(5) - один из способов фильтрации
     // EXECURE QUERY
     const tours = await query;
