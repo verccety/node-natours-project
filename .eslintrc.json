@@ -19,7 +19,9 @@
 			"pascalCase": true
 		}
   }],
+  "unicorn/no-array-for-each": "off",
   "unicorn/no-process-exit": "off",
+  "unicorn/no-array-callback-reference": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }]
   }

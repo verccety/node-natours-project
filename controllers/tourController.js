@@ -6,8 +6,18 @@ const Tour = require('../models/tourModel');
 
 exports.getAllTours = async (request, response) => {
   try {
-    const tours = await Tour.find();
+    // BUILD QUERY
+    const queryObject = { ...request.query };
+    const excludedField = ['page', 'sort', 'limit', 'fields'];
+    excludedField.forEach((element) => delete queryObject[element]);
 
+    const query = Tour.find(queryObject); // сохраняем сначала в query, а не сразу в document, чтобы иметь восможность chain последующие запросы
+
+    //const query = await Tour.find ().where('duration').equals(5) - один из способов фильтрации
+    // EXECURE QUERY
+    const tours = await query;
+
+    // SEND RESPONSE
     response.status(200).json({
       status: 'success',
       results: tours.length, // best practice, not necessary, for mult. obj in array
