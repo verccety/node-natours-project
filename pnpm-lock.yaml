@@ -5,6 +5,7 @@ dependencies:
   mongoose: 5.11.14
   morgan: 1.10.0
   slugify: 1.4.6
+  validator: 13.5.2
 devDependencies:
   eslint: 7.18.0
   eslint-config-airbnb: 18.2.1_ec097f56d230e219ca3e6f6777d72a54
@@ -2421,6 +2422,12 @@ packages:
       spdx-expression-parse: 3.0.1
     resolution:
       integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==
+  /validator/13.5.2:
+    dev: false
+    engines:
+      node: '>= 0.10'
+    resolution:
+      integrity: sha512-mD45p0rvHVBlY2Zuy3F3ESIe1h5X58GPfAtslBjY7EtTqGquZTj+VX/J4RnHWN8FKq0C9WRVt1oWAcytWRuYLQ==
   /vary/1.1.2:
     dev: false
     engines:
@@ -2465,3 +2472,4 @@ specifiers:
   morgan: ^1.10.0
   prettier: ^2.2.1
   slugify: ^1.4.6
+  validator: ^13.5.2
