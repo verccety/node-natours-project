@@ -6,4 +6,4 @@ module.exports = (error, request, response, next) => {
     status: error.status,
     message: error.message,
   });
-}
+};
