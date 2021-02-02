@@ -1,9 +1,14 @@
-const express = require('express');
-const morgan = require('morgan');
-const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
-const tourRouter = require('./routes/tourRoutes');
-const userRouter = require('./routes/userRoutes');
+import express from 'express';
+import morgan from 'morgan';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import AppError from '../utils/appError.js';
+import globalErrorHandler from '../controllers/errorController.js';
+import tourRouter from '../routes/tourRoutes.js';
+import userRouter from '../routes/userRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // 1) MIDDLEWARES
 const app = express();
@@ -32,5 +37,4 @@ app.all('*', (request, response, next) => {
 
 app.use(globalErrorHandler);
 
-// 4) START SERVER
-module.exports = app;
+export default app;

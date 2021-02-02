@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import app from './app/app.js';
 
 //Exception handling should be at the top
 process.on('uncaughtException', (error) => {
@@ -10,8 +11,6 @@ process.on('uncaughtException', (error) => {
 });
 
 dotenv.config({ path: './config.env' });
-
-const app = require('./app');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',

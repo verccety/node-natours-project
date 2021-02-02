@@ -1,3 +1,3 @@
-module.exports = (function_) => (request, response, next) => {
+export default (function_) => (request, response, next) => {
   function_(request, response, next).catch(next);
 };

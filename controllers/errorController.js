@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const AppError = require('../utils/appError');
+import AppError from '../utils/appError.js';
 
 const handleCastErrorDB = (error) => {
   const message = `Invalid ${error.path}: ${error.value}.`;
@@ -46,7 +46,7 @@ const sendErrorProduction = (error, response) => {
   }
 };
 
-module.exports = (error, request, response, next) => {
+export default (error, request, response, next) => {
   // By specifying four parameters, Express automatically knows that entire function is an error handling middleware
   error.statusCode = error.statusCode || 500;
   error.status = error.status || 'error';

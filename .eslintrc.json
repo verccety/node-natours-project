@@ -1,5 +1,10 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:node/recommended", "plugin:unicorn/recommended"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:node/recommended",
+    "plugin:unicorn/recommended"
+  ],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": "error",
@@ -11,17 +16,22 @@
     "no-process-exit": "off",
     "no-param-reassign": "off",
     "no-return-await": "off",
+    "import/extensions": "off",
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
-    "unicorn/filename-case": ["error", {
-		"cases": {
-			"camelCase": true,
-			"pascalCase": true
-		}
-  }],
-  "unicorn/no-array-for-each": "off",
-  "unicorn/no-process-exit": "off",
-  "unicorn/no-array-callback-reference": "off",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "camelCase": true,
+          "pascalCase": true
+        }
+      }
+    ],
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-process-exit": "off",
+    "unicorn/import-style": "off",
+    "unicorn/no-array-callback-reference": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }]
   }
