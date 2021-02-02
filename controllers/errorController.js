@@ -1,4 +1,22 @@
 /* eslint-disable no-console */
+const AppError = require('../utils/appError');
+
+const handleCastErrorDB = (error) => {
+  const message = `Invalid ${error.path}: ${error.value}.`;
+  return new AppError(message, 400);
+};
+const handleDuplicateFieldsDB = (error) => {
+  const value = error.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  const message = `Duplicate field name value:  ${value}. Please use another value.`;
+  return new AppError(message, 400);
+};
+
+const handleValidationErrorDB = (error) => {
+  const errors = Object.values(error.errors).map((element) => element.message);
+  const message = `Invalid input data. ${errors.join('. ')}`;
+  return new AppError(message, 400);
+};
+
 const sendErrorDevelopment = (error, response) => {
   response.status(error.statusCode).json({
     status: error.status,
@@ -36,6 +54,19 @@ module.exports = (error, request, response, next) => {
   if (process.env.NODE_ENV === 'development') {
     sendErrorDevelopment(error, response);
   } else if (process.env.NODE_ENV === 'production') {
-    sendErrorProduction(error, response);
+    //spread operator will not copy the the source object’s prototype to the
+    //target object, using (assign) instead. Spread operator is just a sugar for
+    //Object.assign with the first parameter set to empty object
+
+    let errorCopy = Object.assign(error);
+    if (errorCopy.name === 'CastError')
+      errorCopy = handleCastErrorDB(errorCopy);
+    if (errorCopy.code === 11000)
+      errorCopy = handleDuplicateFieldsDB(errorCopy);
+
+    if (errorCopy.name === 'ValidationError')
+      errorCopy = handleValidationErrorDB(errorCopy);
+
+    sendErrorProduction(errorCopy, response);
   }
 };
