@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please enter a password'],
     min: [8, 'A password must be minimum 6 characters length'],
     max: [20, 'A password must be maximum 20 characters length'],
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -53,6 +54,15 @@ userSchema.pre('save', async function (next) {
 
   next();
 });
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  // Since pass is select:false we need to pass password explicitly
+
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 
