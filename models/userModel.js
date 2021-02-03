@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -34,7 +35,23 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: [8, 'A password must be minimum 6 characters length'],
     max: [20, 'A password must be maximum 20 characters length'],
+    validate: {
+      // Will run only on CREATE or SAVE!
+      validator: function (element) {
+        return element === this.password;
+      },
+      message: 'Passwords do not match!',
+    },
   },
+});
+
+userSchema.pre('save', async function (next) {
+  // Run if pass was modified
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+
+  next();
 });
 
 const User = mongoose.model('User', userSchema);
