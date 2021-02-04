@@ -14,6 +14,7 @@ export const signup = catchAsync(async (request, response, next) => {
   const newUser = await User.create({
     name: request.body.name,
     email: request.body.email,
+    role: request.body.role,
     password: request.body.password,
     passwordConfirm: request.body.passwordConfirm,
     passwordChangedAt: request.body.passwordChangedAt,
@@ -87,6 +88,16 @@ export const protect = catchAsync(async (request, response, next) => {
 
   // Grant access to protected route
 
-  request.user = currentUser;
+  request.user = currentUser; // pass object to second middleware
   next();
 });
+
+export const restrictTo = (...roles) => (request, response, next) => {
+  if (!roles.includes(request.user.role)) {
+    return next(
+      new AppError('You do not have permission to perform this action', 403)
+    );
+  }
+
+  next();
+};
