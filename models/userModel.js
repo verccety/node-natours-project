@@ -64,6 +64,12 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() + 1000; //hack; takes into account if token was created before this timestamp
+  next();
+});
 // Instance method - available on all documents
 
 // Check if the password is valid

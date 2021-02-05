@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { promisify } from 'util';
 import User from '../models/userModel.js';
 import catchAsync from '../utils/catchAsync.js';
@@ -138,4 +139,38 @@ export const forgotPassword = catchAsync(async (request, response, next) => {
   }
 });
 
-export const resetPassword = (request, response, next) => {};
+export const resetPassword = catchAsync(async (request, response, next) => {
+  // 1) Find user by token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(request.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  // 2) If token has not expired + user exists  => set the new password
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+
+  user.password = request.body.password;
+  user.passwordConfirm = request.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+
+  // For everything related to password - run SAVE instead FindOne, etc.., =>
+  // need to run all validators
+  await user.save();
+  // 3) Update changedPasswordAt
+
+  // 4) Log the user in
+  const token = signToken(user._id);
+
+  response.status(200).json({
+    status: 'success',
+    token,
+  });
+});
