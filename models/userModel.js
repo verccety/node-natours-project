@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -48,8 +49,10 @@ const userSchema = new mongoose.Schema({
       },
       message: 'Passwords do not match!',
     },
-    passwordChangedAt: Date,
   },
+  passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 userSchema.pre('save', async function (next) {
@@ -61,7 +64,9 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-//Instance method - available on all documents
+// Instance method - available on all documents
+
+// Check if the password is valid
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -71,6 +76,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+// Check if issued token is newer than time of last password change
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = Number.parseInt(
@@ -82,6 +88,20 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   }
 
   return false;
+};
+
+// Generate random token
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 const User = mongoose.model('User', userSchema);

@@ -6,6 +6,7 @@ dependencies:
   jsonwebtoken: 8.5.1
   mongoose: 5.11.14
   morgan: 1.10.0
+  nodemailer: 6.4.17
   slugify: 1.4.6
   validator: 13.5.2
 devDependencies:
@@ -1886,6 +1887,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
+  /nodemailer/6.4.17:
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-89ps+SBGpo0D4Bi5ZrxcrCiRFaMmkCt+gItMXQGzEtZVR3uAD3QAQIDoxTWnx3ky0Dwwy/dhFrQ+6NNGXpw/qQ==
   /normalize-package-data/2.5.0:
     dependencies:
       hosted-git-info: 2.8.8
@@ -2834,6 +2841,7 @@ specifiers:
   jsonwebtoken: ^8.5.1
   mongoose: ^5.11.13
   morgan: ^1.10.0
+  nodemailer: ^6.4.17
   prettier: ^2.2.1
   pretty-quick: ^3.1.0
   slugify: ^1.4.6
