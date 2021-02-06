@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
 
 import AppError from '../utils/appError.js';
 import globalErrorHandler from '../controllers/errorController.js';
@@ -24,6 +26,12 @@ app.use(express.static(`${__dirname}/public`));
 
 // Body parser
 app.use(express.json({ limit: '10kb' }));
+
+// Data sanitization against NoSQL query injections
+app.use(mongoSanitize());
+
+// Against XSS
+app.use(xss());
 
 // Logger
 if (process.env.NODE_ENV === 'development') {

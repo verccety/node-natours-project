@@ -3,6 +3,7 @@ dependencies:
   dotenv: 8.2.0
   eslint-plugin-unicorn: 27.0.0_eslint@7.18.0
   express: 4.17.1
+  express-mongo-sanitize: 2.0.2
   express-rate-limit: 5.2.3
   helmet: 4.4.1
   jsonwebtoken: 8.5.1
@@ -11,6 +12,7 @@ dependencies:
   nodemailer: 6.4.17
   slugify: 1.4.6
   validator: 13.5.2
+  xss-clean: 0.1.1
 devDependencies:
   eslint: 7.18.0
   eslint-config-airbnb: 18.2.1_ec097f56d230e219ca3e6f6777d72a54
@@ -1077,6 +1079,12 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-j5W0//W7f8UxAn8hXVnwG8tLwdiUy4FJLcSupCg6maBYZDpyBvTApK7KyuI4bKj8KOh1r2YH+6ucuYtJv1bTZA==
+  /express-mongo-sanitize/2.0.2:
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-JKdeb6EBW++5Uo4F5Ed66p3FSjqNfqc65WrO2H6iWJjyI+IYb4pWq6HjFho/8p95t7ccjr9aBz8QQszeLM/bcQ==
   /express-rate-limit/5.2.3:
     dev: false
     resolution:
@@ -2821,6 +2829,16 @@ packages:
     dev: true
     resolution:
       integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+  /xss-clean/0.1.1:
+    dependencies:
+      xss-filters: 1.2.6
+    dev: false
+    resolution:
+      integrity: sha1-07poTYXM1SBUlj0BrWqzbWYtsaU=
+  /xss-filters/1.2.6:
+    dev: false
+    resolution:
+      integrity: sha1-aLOQicsd/4udvIiUhIObL1B/XFU=
   /yallist/4.0.0:
     resolution:
       integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
@@ -2849,6 +2867,7 @@ specifiers:
   eslint-plugin-react: ^7.22.0
   eslint-plugin-unicorn: ^27.0.0
   express: ^4.17.1
+  express-mongo-sanitize: ^2.0.2
   express-rate-limit: ^5.2.3
   helmet: ^4.4.1
   husky: ^4.3.8
@@ -2860,3 +2879,4 @@ specifiers:
   pretty-quick: ^3.1.0
   slugify: ^1.4.6
   validator: ^13.5.2
+  xss-clean: ^0.1.1
