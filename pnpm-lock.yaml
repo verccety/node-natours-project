@@ -6,6 +6,7 @@ dependencies:
   express-mongo-sanitize: 2.0.2
   express-rate-limit: 5.2.3
   helmet: 4.4.1
+  hpp: 0.2.3
   jsonwebtoken: 8.5.1
   mongoose: 5.11.14
   morgan: 1.10.0
@@ -1319,6 +1320,15 @@ packages:
   /hosted-git-info/2.8.8:
     resolution:
       integrity: sha512-f/wzC2QaWBs7t9IYqB4T3sR1xviIViXJRJTWBlx2Gf3g0Xi5vI7Yy4koXQ1c9OYDGHN9sBy1DQ2AB8fqZBWhUg==
+  /hpp/0.2.3:
+    dependencies:
+      lodash: 4.17.20
+      type-is: 1.6.18
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-4zDZypjQcxK/8pfFNR7jaON7zEUpXZxz4viyFmqjb3kWNWAHsLEUmWXcdn25c5l76ISvnD6hbOGO97cXUI3Ryw==
   /http-errors/1.7.2:
     dependencies:
       depd: 1.1.2
@@ -2870,6 +2880,7 @@ specifiers:
   express-mongo-sanitize: ^2.0.2
   express-rate-limit: ^5.2.3
   helmet: ^4.4.1
+  hpp: ^0.2.3
   husky: ^4.3.8
   jsonwebtoken: ^8.5.1
   mongoose: ^5.11.13
