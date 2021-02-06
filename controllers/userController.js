@@ -53,6 +53,15 @@ export const updateMe = catchAsync(async (request, response, next) => {
     },
   });
 });
+
+export const deleteMe = catchAsync(async (request, response, next) => {
+  await User.findByIdAndUpdate(request.user.id, { active: false });
+
+  response.status(204).json({
+    status: 'success',
+    data: undefined,
+  });
+});
 export function getUser(request, response) {
   response.status(500).json({
     status: 'error',
