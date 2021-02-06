@@ -4,6 +4,7 @@ dependencies:
   eslint-plugin-unicorn: 27.0.0_eslint@7.18.0
   express: 4.17.1
   express-rate-limit: 5.2.3
+  helmet: 4.4.1
   jsonwebtoken: 8.5.1
   mongoose: 5.11.14
   morgan: 1.10.0
@@ -1301,6 +1302,12 @@ packages:
       node: '>= 0.4.0'
     resolution:
       integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
+  /helmet/4.4.1:
+    dev: false
+    engines:
+      node: '>=10.0.0'
+    resolution:
+      integrity: sha512-G8tp0wUMI7i8wkMk2xLcEvESg5PiCitFMYgGRc/PwULB0RVhTP5GFdxOwvJwp9XVha8CuS8mnhmE8I/8dx/pbw==
   /hosted-git-info/2.8.8:
     resolution:
       integrity: sha512-f/wzC2QaWBs7t9IYqB4T3sR1xviIViXJRJTWBlx2Gf3g0Xi5vI7Yy4koXQ1c9OYDGHN9sBy1DQ2AB8fqZBWhUg==
@@ -2843,6 +2850,7 @@ specifiers:
   eslint-plugin-unicorn: ^27.0.0
   express: ^4.17.1
   express-rate-limit: ^5.2.3
+  helmet: ^4.4.1
   husky: ^4.3.8
   jsonwebtoken: ^8.5.1
   mongoose: ^5.11.13

@@ -3,6 +3,8 @@ import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+
 import AppError from '../utils/appError.js';
 import globalErrorHandler from '../controllers/errorController.js';
 import tourRouter from '../routes/tourRoutes.js';
@@ -13,18 +15,30 @@ const __dirname = dirname(__filename);
 
 // 1) MIDDLEWARES
 const app = express();
+
+// Set security headers
+app.use(helmet());
+
+// Serving static files
 app.use(express.static(`${__dirname}/public`));
-app.use(express.json());
+
+// Body parser
+app.use(express.json({ limit: '10kb' }));
+
+// Logger
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour',
 });
+// Limit requests from same IP
 app.use('/api', limiter);
 
+// Test middleware
 app.use((request, response, next) => {
   request.requestTime = new Date().toUTCString();
   next(); // next обязательный параметр для передачи управления по цепочке след. middleware
