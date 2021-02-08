@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
-const fs = require('fs');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const Tour = require('../../models/tourModel');
+import fs from 'fs';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import Tour from '../../models/tourModel.js';
 
 dotenv.config({ path: './config.env' });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
@@ -21,9 +25,7 @@ mongoose
 
 // READ JSON FILE
 
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 // IMPORT DATA INTO DB
 
