@@ -42,10 +42,11 @@ reviewSchema.pre(/^find/, function (next) {
     path: 'user',
     // send only relevant data to prevent ant leaks
     select: 'name photo',
-  }).populate({
+  });
+  /*.populate({
     path: 'tour',
     select: 'name',
-  });
+  });*/
 
   next();
 });
