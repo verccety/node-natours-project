@@ -15,7 +15,7 @@ class APIFeatures {
       /\b(gte|gt|lt|lte)\b/g,
       (match) => `$${match}`
     );
-    this.query = this.query.find(JSON.parse(queryString)); // сохраняем сначала в query, а не сразу в document, чтобы иметь восможность chain последующие запросы
+    this.query = this.query.find(JSON.parse(queryString)); // сохраняем сначала в query, а не сразу в document, чтобы иметь возможность chain последующие запросы
     return this;
   }
 
