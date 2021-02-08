@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import slugify from 'slugify';
 import validator from 'validator';
+import User from './userModel.js';
 
 const tourSchema = new mongoose.Schema(
   {
@@ -81,6 +82,30 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    startLocation: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    guides: Array,
   },
   {
     toJSON: { virtuals: true },
@@ -102,6 +127,11 @@ tourSchema.pre('save', function (next) {
 // tourSchema.post('save', function (document, next) {
 //   next();
 // });
+
+tourSchema.pre('save', async function (next) {
+  this.guides = await Promise.all(this.guides.map((id) => User.findById(id)));
+  next();
+});
 
 //Query Middleware, this - current query
 tourSchema.pre(/^find/, function (next) {
