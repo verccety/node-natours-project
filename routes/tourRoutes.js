@@ -8,7 +8,7 @@ const router = express.Router();
 
 // tour router defined before other routes in app.js, will check Tour router first, find path
 // below and re-route in reviewRouter
-router.use('/:tourId/reviews', reviewRouter);
+router.use('/:tourId/reviews', tourController.setTourId, reviewRouter);
 
 router
   .route('/top-5-cheap')
