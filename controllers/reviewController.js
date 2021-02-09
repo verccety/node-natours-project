@@ -17,12 +17,16 @@ export const getAllReviews = catchAsync(async (request, response, next) => {
 });
 
 export const createReview = catchAsync(async (request, response, next) => {
+  // If no tour id is specified in the body => define one from URL
+  if (request.params.tourId) request.body.tour = request.params.tourId;
+  request.body.user = request.user.id;
+
   const newReview = await Review.create(request.body);
 
   response.status(201).json({
     status: 'success',
     data: {
-      newReview,
+      review: newReview,
     },
   });
 });
