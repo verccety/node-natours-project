@@ -95,6 +95,7 @@ export const getAll = (Model) =>
       .limitFields()
       .paginate();
     const document = await features.query;
+    // const document = wait features.query.explain();
     const collectionName = getCollectionName(Model);
 
     // SEND RESPONSE
