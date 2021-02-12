@@ -81,6 +81,7 @@ export const getMonthlyPlan = catchAsync(async (request, response, next) => {
       },
     },
     {
+      // 0 - field doesn't show up, 1 - show up
       $project: {
         _id: 0,
       },

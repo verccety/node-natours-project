@@ -134,8 +134,8 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
-// tourSchema.post('save', function (document, next) {
-//   next();
+// tourSchema.post('save', function (document) {
+//
 // });
 
 //Query Middleware, this - current query
