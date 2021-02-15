@@ -1,6 +1,7 @@
 import Tour from '../models/tourModel.js';
 import catchAsync from '../utils/catchAsync.js';
 import * as factory from './handlerFactory.js';
+import AppError from '../utils/appError.js';
 
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
@@ -97,5 +98,32 @@ export const getMonthlyPlan = catchAsync(async (request, response, next) => {
   response.status(200).json({
     status: 'success',
     data: plan,
+  });
+});
+
+export const getToursWithin = catchAsync(async (request, response, next) => {
+  const { distance, latlng, unit } = request.params;
+  const [lat, lng] = latlng.split(',');
+
+  // convert to radians
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+
+  if (!lat || !lng) {
+    next(
+      AppError('Please provide latitude and longitude in the correct format'),
+      400
+    );
+  }
+
+  const tours = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
+
+  response.status(200).json({
+    status: 'success',
+    results: tours.length,
+    data: {
+      data: tours,
+    },
   });
 });
