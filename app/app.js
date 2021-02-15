@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path, { dirname } from 'path';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
@@ -19,12 +19,14 @@ const __dirname = dirname(__filename);
 
 // 1) MIDDLEWARES
 const app = express();
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, '..', 'views'));
+
+// Serving static files
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Set security headers
 app.use(helmet());
-
-// Serving static files
-app.use(express.static(`${__dirname}/public`));
 
 // Body parser
 app.use(express.json({ limit: '10kb' }));
@@ -71,6 +73,13 @@ app.use((request, response, next) => {
 // 2) ROUTE HANDLERS
 
 // 3) ROUTES
+
+app.get('/', (request, response) => {
+  response.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Iona',
+  });
+});
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
