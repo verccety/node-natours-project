@@ -12,7 +12,6 @@ const getCollectionName = (Model) => {
   return collectionName;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const deleteOne = (Model) =>
   catchAsync(async (request, response, next) => {
     const document = await Model.findByIdAndDelete(request.params.id);
