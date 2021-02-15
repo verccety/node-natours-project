@@ -154,9 +154,14 @@ tourSchema.pre(/^find/, function (next) {
   });
   next();
 });
-//Aggregation Middleware
+// Aggregation Middleware
 tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  const queryOne = Object.keys(this.pipeline()[0]);
+  if (queryOne[0] !== '$geoNear') {
+    this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  } else {
+    this.pipeline().splice(1, 0, { $match: { secretTour: { $ne: true } } });
+  }
   next();
 });
 
