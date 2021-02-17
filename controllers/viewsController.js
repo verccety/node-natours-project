@@ -1,5 +1,6 @@
 import Tour from '../models/tourModel.js';
 import catchAsync from '../utils/catchAsync.js';
+import AppError from '../utils/appError.js';
 
 export const getOverview = catchAsync(async (request, response, next) => {
   // 1) Get tour data from collection
@@ -13,8 +14,16 @@ export const getOverview = catchAsync(async (request, response, next) => {
   });
 });
 
-export const getTour = (request, response) => {
-  response.status(200).render('tour', {
-    title: 'The Forest Hiker Tour',
+export const getTour = catchAsync(async (request, response, next) => {
+  const tour = await Tour.findOne({ slug: request.params.slug }).populate({
+    path: 'reviews',
+    fields: 'review rating user',
   });
-};
+  if (!tour) {
+    return next(new AppError('No tour found with that id', 404));
+  }
+  response.status(200).render('tour', {
+    title: `${tour.name} Tour`,
+    tour,
+  });
+});
