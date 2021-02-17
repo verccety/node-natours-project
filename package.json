@@ -8,6 +8,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "start": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production&& nodemon server.js",
     "debug": "ndb server.js"
@@ -39,6 +40,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "@prettier/plugin-pug": "^1.13.3",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.2.0",

@@ -16,6 +16,7 @@ dependencies:
   validator: 13.5.2
   xss-clean: 0.1.1
 devDependencies:
+  '@prettier/plugin-pug': 1.13.3_prettier@2.2.1
   eslint: 7.18.0
   eslint-config-airbnb: 18.2.1_ec097f56d230e219ca3e6f6777d72a54
   eslint-config-prettier: 7.2.0_eslint@7.18.0
@@ -154,6 +155,15 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-1JTKgrOKAHVivSvOYw+sJOunkBjUOvjqWk1DPja7ZFhIS2mX/4EgTT8M7eTK9jrKhL/FvXXEbQwIs3pg1xp3dg==
+  /@prettier/plugin-pug/1.13.3_prettier@2.2.1:
+    dependencies:
+      prettier: 2.2.1
+      pug-lexer: 5.0.0
+    dev: true
+    peerDependencies:
+      prettier: ^2.1.0
+    resolution:
+      integrity: sha512-Tw4Sg6dvPDKrZ2kunAcqRYsecbHVZVluSwJrXp9XtQaIXRlBAR+yI4aRIAXj2Fnulhz3Rakyv/GLmejj43GkCw==
   /@types/bson/4.0.3:
     dependencies:
       '@types/node': 14.14.22
@@ -487,7 +497,6 @@ packages:
   /character-parser/2.2.0:
     dependencies:
       is-regex: 1.1.2
-    dev: false
     resolution:
       integrity: sha1-x84o821LzZdE5f/CxfzeHHMmH8A=
   /ci-info/2.0.0:
@@ -1526,7 +1535,6 @@ packages:
     dependencies:
       acorn: 7.4.1
       object-assign: 4.1.1
-    dev: false
     resolution:
       integrity: sha512-zMIXX63sxzG3XrkHkrAPvm/OVZVSCPNkwMHU8oTX7/U3AL78I0QXCEICXUM13BIa8TYGZ68PiTKfQz3yaTNr4A==
   /is-extglob/2.1.1:
@@ -1571,7 +1579,6 @@ packages:
     dependencies:
       call-bind: 1.0.2
       has-symbols: 1.0.1
-    dev: false
     engines:
       node: '>= 0.4'
     resolution:
@@ -2388,7 +2395,6 @@ packages:
     resolution:
       integrity: sha512-xJIGvmXTQlkJllq6hqxxjRWcay2F9CU69TuAuiVZgHK0afOhG5txrQOcZyaPHBvSWCU/QQOqEp5XCH94rRZpBQ==
   /pug-error/2.0.0:
-    dev: false
     resolution:
       integrity: sha512-sjiUsi9M4RAGHktC1drQfCr5C5eriu24Lfbt4s+7SykztEOwVZtbFk1RRq0tzLxcMxMYTBR+zMQaG07J/btayQ==
   /pug-filters/4.0.0:
@@ -2406,7 +2412,6 @@ packages:
       character-parser: 2.2.0
       is-expression: 4.0.0
       pug-error: 2.0.0
-    dev: false
     resolution:
       integrity: sha512-52xMk8nNpuyQ/M2wjZBN5gXQLIylaGkAoTk5Y1pBhVqaopaoj8Z0iVzpbFZAqitL4RHNVDZRnJDsqEYe99Ti0A==
   /pug-linker/4.0.0:
@@ -3073,6 +3078,7 @@ packages:
     resolution:
       integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 specifiers:
+  '@prettier/plugin-pug': ^1.13.3
   bcryptjs: ^2.4.3
   dotenv: ^8.2.0
   eslint: ^7.18.0
