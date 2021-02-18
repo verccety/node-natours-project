@@ -22,8 +22,14 @@ export const getTour = catchAsync(async (request, response, next) => {
   if (!tour) {
     return next(new AppError('No tour found with that id', 404));
   }
-  response.status(200).render('tour', {
-    title: `${tour.name} Tour`,
-    tour,
-  });
+  response
+    .status(200)
+    .set(
+      'Content-Security-Policy',
+      'connect-src https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com'
+    )
+    .render('tour', {
+      title: `${tour.name} Tour`,
+      tour,
+    });
 });

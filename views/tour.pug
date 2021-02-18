@@ -1,6 +1,10 @@
 extends base
 include _mixins
 
+block append head
+  script(defer src="/js/mapbox.js")
+  script(src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet')
      
 
 
@@ -65,7 +69,7 @@ block content
 
 
   section.section-map
-    #map
+    #map(data-locations=`${JSON.stringify(tour.locations)}`)
 
   section.section-reviews
     .reviews
