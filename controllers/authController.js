@@ -76,6 +76,8 @@ export const protect = catchAsync(async (request, response, next) => {
     request.headers.authorization.startsWith('Bearer')
   ) {
     token = request.headers.authorization.split(' ')[1];
+  } else if (request.cookies.jwt) {
+    token = request.cookies.jwt;
   }
 
   if (!token) {
@@ -103,6 +105,29 @@ export const protect = catchAsync(async (request, response, next) => {
   // Grant access to protected route
 
   request.user = currentUser; // pass object to second middleware
+  next();
+});
+
+export const isLoggedIn = catchAsync(async (request, response, next) => {
+  if (request.cookies.jwt) {
+    const decoded = await promisify(jwt.verify)(
+      request.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+
+    const currentUser = await User.findById(decoded.id);
+
+    if (!currentUser) {
+      return next();
+    }
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+      return next();
+    }
+
+    // PUG templates will have access to response.locals
+    response.locals.user = currentUser;
+    return next();
+  }
   next();
 });
 

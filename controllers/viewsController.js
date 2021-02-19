@@ -33,3 +33,15 @@ export const getTour = catchAsync(async (request, response, next) => {
       tour,
     });
 });
+
+export const getLoginForm = (request, response) => {
+  response
+    .status(200)
+    .set(
+      'Content-Security-Policy',
+      "connect-src 'self' https://*.cloudflare.com"
+    )
+    .render('login', {
+      title: 'Log into your account',
+    });
+};
