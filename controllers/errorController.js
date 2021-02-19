@@ -22,46 +22,75 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError('Your token has expired. Please log in again!', 401);
 
-const sendErrorDevelopment = (error, response) => {
-  response.status(error.statusCode).json({
-    status: error.status,
-    message: error.message,
-    stack: error.stack,
-    error,
+// --------------------------------------------------------------------------------------
+
+const sendErrorDevelopment = (error, request, response) => {
+  // a) API
+  if (request.originalUrl.startsWith('/api')) {
+    return response.status(error.statusCode).json({
+      status: error.status,
+      message: error.message,
+      stack: error.stack,
+      error,
+    });
+  }
+
+  // b) RENDERED SITE
+  console.error('ERROR', error);
+  return response.status(error.statusCode).render('error', {
+    title: 'Something went wrong!',
+    msg: error.message,
   });
 };
 
-const sendErrorProduction = (error, response) => {
-  // Operational, trusted error: send message to the client
-  if (error.isOperational) {
-    response.status(error.statusCode).json({
-      status: error.status,
-      message: error.message,
-    });
-    // Programming or other unknown error: don't send error details
-  } else {
-    //1) Log error
-    console.error('ERROR', error);
+const sendErrorProduction = (error, request, response) => {
+  // a) API
+  if (request.originalUrl.startsWith('/api')) {
+    // Operational, trusted error: send message to the client
+    if (error.isOperational) {
+      return response.status(error.statusCode).json({
+        status: error.status,
+        message: error.message,
+      });
+    }
 
-    //2) Send generic message
-    response.status(500).json({
+    // Programming or other unknown error: don't send error details
+    // Send a generic message
+    console.error('ERROR', error);
+    return response.status(500).json({
       status: 'error',
       message: 'Something went wrong!',
     });
   }
+
+  // b) RENDERED SITE
+  if (error.isOperational) {
+    return response.status(error.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: error.message,
+    });
+  }
+
+  // Programming or other unknown error: don't send error details
+  // Send a generic message
+  console.error('ERROR', error);
+  return response.status(error.statusCode).render('error', {
+    title: 'Something went wrong!',
+    msg: 'Please try again later.',
+  });
 };
 
 export default (error, request, response, next) => {
-  // By specifying four parameters, Express automatically knows that entire function is an error handling middleware
+  // By specifying four parameters, Express automatically knows that entire function is an error-handling middleware
   error.statusCode = error.statusCode || 500;
   error.status = error.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDevelopment(error, response);
+    sendErrorDevelopment(error, request, response);
   } else if (process.env.NODE_ENV === 'production') {
-    //spread operator will not copy the the source object’s prototype to the
-    //target object, using (assign) instead. Spread operator is just a sugar for
-    //Object.assign with the first parameter set to empty object
+    // Spread operator will not copy the source object’s prototype to the
+    // target object; using 'Object.assign' instead. Spread operator is just a sugar for
+    // Object.assign with the first parameter set to empty object
 
     let errorCopy = Object.assign(error);
     if (errorCopy.name === 'CastError')
@@ -76,6 +105,6 @@ export default (error, request, response, next) => {
     if (errorCopy.name === 'TokenExpiredError')
       errorCopy = handleJWTExpiredError();
 
-    sendErrorProduction(errorCopy, response);
+    sendErrorProduction(errorCopy, request, response);
   }
 };
