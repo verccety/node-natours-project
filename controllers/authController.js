@@ -113,6 +113,7 @@ export const protect = catchAsync(async (request, response, next) => {
   // Grant access to protected route
 
   request.user = currentUser; // pass object to second middleware
+  response.locals.user = currentUser;
   next();
 });
 

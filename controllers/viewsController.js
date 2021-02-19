@@ -42,3 +42,12 @@ export const getLoginForm = (request, response) => {
       title: 'Log into your account',
     });
 };
+
+export const getAccount = (request, response) => {
+  response
+    .status(200)
+    .set('Content-Security-Policy', "connect-src 'self'")
+    .render('account', {
+      title: 'Your account',
+    });
+};
