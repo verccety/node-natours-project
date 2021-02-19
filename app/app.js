@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
+import cookieParser from 'cookie-parser';
 
 import AppError from '../utils/appError.js';
 import globalErrorHandler from '../controllers/errorController.js';
@@ -31,6 +32,7 @@ app.use(helmet());
 
 // Body parser
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injections
 app.use(mongoSanitize());
