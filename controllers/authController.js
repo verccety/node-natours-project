@@ -17,6 +17,7 @@ const createSendToken = (user, statusCode, response) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
+    // cannot manipulate cookie in any way
     httpOnly: true,
   };
 
@@ -35,7 +36,6 @@ const createSendToken = (user, statusCode, response) => {
   });
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const signup = catchAsync(async (request, response, next) => {
   const newUser = await User.create({
     name: request.body.name,
@@ -67,6 +67,14 @@ export const login = catchAsync(async (request, response, next) => {
   //3) If ok -> send token
   createSendToken(user, 200, response);
 });
+
+export const logout = (request, response) => {
+  response.cookie('jwt', null, {
+    expires: new Date(Date.now() - 10 * 1000),
+    httpOnly: true,
+  });
+  response.status(200).json({ status: 'success' });
+};
 
 export const protect = catchAsync(async (request, response, next) => {
   // 1) Get the token
