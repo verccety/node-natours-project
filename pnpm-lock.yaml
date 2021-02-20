@@ -3,6 +3,7 @@ dependencies:
   axios: 0.21.1
   bcryptjs: 2.4.3
   cookie-parser: 1.4.5
+  core-js: 3.9.0
   dotenv: 8.2.0
   eslint-plugin-unicorn: 27.0.0_eslint@7.20.0
   express: 4.17.1
@@ -2203,6 +2204,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
+  /core-js/3.9.0:
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-PyFBJaLq93FlyYdsndE5VaueA9K5cNB7CGzeCj191YYLhkQM0gdZR2SKihM70oF0wdqKSKClv/tEBOpoRmdOVQ==
   /core-util-is/1.0.2:
     resolution:
       integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
@@ -7754,6 +7760,7 @@ specifiers:
   axios: ^0.21.1
   bcryptjs: ^2.4.3
   cookie-parser: ^1.4.5
+  core-js: ^3.9.0
   dotenv: ^8.2.0
   eslint: ^7.20.0
   eslint-config-airbnb: ^18.2.1

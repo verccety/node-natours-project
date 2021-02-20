@@ -1,4 +1,5 @@
 import Tour from '../models/tourModel.js';
+import User from '../models/userModel.js';
 import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
 
@@ -51,3 +52,22 @@ export const getAccount = (request, response) => {
       title: 'Your account',
     });
 };
+
+export const updateUserData = catchAsync(async (request, response, next) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    request.user.id,
+    {
+      name: request.body.name,
+      email: request.body.email,
+    },
+    { new: true, runValidators: true }
+  );
+
+  response
+    .status(200)
+    .set('Content-Security-Policy', "connect-src 'self'")
+    .render('account', {
+      title: 'Your account',
+      user: updatedUser,
+    });
+});
