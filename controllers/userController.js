@@ -1,7 +1,29 @@
+import multer from 'multer';
 import User from '../models/userModel.js';
 import AppError from '../utils/appError.js';
 import catchAsync from '../utils/catchAsync.js';
+
 import * as factory from './handlerFactory.js';
+
+const multerStorage = multer.diskStorage({
+  destination: (request, response, cb) => {
+    cb(null, 'public/img/users');
+  },
+  filename: (request, file, cb) => {
+    const ext = file.mimetype.split('/')[1];
+
+    cb(null, `user-${request.user.id}-${Date.now()}.${ext}`);
+  },
+});
+
+const multerFilter = (request, file, cb) => {
+  if (file.mimetype.startsWith('image')) cb(null, true);
+  else cb(new AppError('Not an image, please upload only images', 404), false);
+};
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
 
 const filterObject = (object, ...allowedFields) => {
   const newObject = {};
@@ -16,6 +38,8 @@ export const getMe = (request, response, next) => {
   request.params.id = request.user.id;
   next();
 };
+
+export const uploadUserPhoto = upload.single('photo');
 
 export const updateMe = catchAsync(async (request, response, next) => {
   // 1) Error if user posts a password
