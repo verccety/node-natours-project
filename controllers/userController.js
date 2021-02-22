@@ -1,20 +1,23 @@
 import multer from 'multer';
+import sharp from 'sharp';
 import User from '../models/userModel.js';
 import AppError from '../utils/appError.js';
 import catchAsync from '../utils/catchAsync.js';
 
 import * as factory from './handlerFactory.js';
 
-const multerStorage = multer.diskStorage({
-  destination: (request, response, cb) => {
-    cb(null, 'public/img/users');
-  },
-  filename: (request, file, cb) => {
-    const ext = file.mimetype.split('/')[1];
+// const multerStorage = multer.diskStorage({
+//   destination: (request, response, cb) => {
+//     cb(null, 'public/img/users');
+//   },
+//   filename: (request, file, cb) => {
+//     const ext = file.mimetype.split('/')[1];
 
-    cb(null, `user-${request.user.id}-${Date.now()}.${ext}`);
-  },
-});
+//     cb(null, `user-${request.user.id}-${Date.now()}.${ext}`);
+//   },
+// });
+
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (request, file, cb) => {
   if (file.mimetype.startsWith('image')) cb(null, true);
@@ -41,6 +44,20 @@ export const getMe = (request, response, next) => {
 
 export const uploadUserPhoto = upload.single('photo');
 
+export const resizeUserPhoto = (request, response, next) => {
+  if (!request.file) return next();
+
+  request.file.filename = `user-${request.user.id}-${Date.now()}.jpeg`;
+
+  sharp(request.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${request.file.filename}`);
+
+  next();
+};
+
 export const updateMe = catchAsync(async (request, response, next) => {
   // 1) Error if user posts a password
   if (request.body.password || request.body.passwordConfirm) {
@@ -53,6 +70,7 @@ export const updateMe = catchAsync(async (request, response, next) => {
   }
   // 2) Filtered out unwanted fields
   const filteredBody = filterObject(request.body, 'name', 'email'); //grab only two fields to prevent posting stuff like "role: admin", etc..
+  if (request.file) filteredBody.photo = request.file.filename;
   // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(
     request.user.id,
