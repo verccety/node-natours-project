@@ -11,6 +11,7 @@ dependencies:
   express-rate-limit: 5.2.6
   helmet: 4.4.1
   hpp: 0.2.3
+  html-to-text: 7.0.0
   jsonwebtoken: 8.5.1
   mongoose: 5.11.13
   morgan: 1.10.0
@@ -2605,6 +2606,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
+  /deepmerge/4.2.2:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
   /defaults/1.0.3:
     dependencies:
       clone: 1.0.4
@@ -2741,6 +2748,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-2/xPb3ORsQ42nHYiSunXkDjPLBaEj/xTwUO4B7XCZQTRk7EBtTOPaygh10YAAh2OI1Qrp6NWfpAhzswj0ydt9g==
+  /dom-serializer/1.2.0:
+    dependencies:
+      domelementtype: 2.1.0
+      domhandler: 4.0.0
+      entities: 2.2.0
+    dev: false
+    resolution:
+      integrity: sha512-n6kZFH/KlCrqs/1GHMOd5i2fd/beQHuehKdWvNNffbGHTr/almdhuVvTVFb3V7fglz+nC50fFusu3lY33h12pA==
   /domain-browser/1.2.0:
     dev: true
     engines:
@@ -2753,7 +2768,6 @@ packages:
     resolution:
       integrity: sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==
   /domelementtype/2.1.0:
-    dev: true
     resolution:
       integrity: sha512-LsTgx/L5VpD+Q8lmsXSHW2WpA+eBlZ9HPf3erD1IoPF00/3JKHZ3BknUVA2QGDNu69ZNmyFmCWBSO45XjYKC5w==
   /domexception/1.0.1:
@@ -2768,6 +2782,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==
+  /domhandler/4.0.0:
+    dependencies:
+      domelementtype: 2.1.0
+    dev: false
+    engines:
+      node: '>= 4'
+    resolution:
+      integrity: sha512-KPTbnGQ1JeEMQyO1iYXoagsI6so/C96HZiFyByU3T6iAzpXn8EGEvct6unm1ZGoed8ByO2oirxgwxBmqKF9haA==
   /domutils/1.7.0:
     dependencies:
       dom-serializer: 0.2.2
@@ -2775,6 +2797,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==
+  /domutils/2.4.4:
+    dependencies:
+      dom-serializer: 1.2.0
+      domelementtype: 2.1.0
+      domhandler: 4.0.0
+    dev: false
+    resolution:
+      integrity: sha512-jBC0vOsECI4OMdD0GC9mGn7NXPLb+Qt6KW1YDQzeQYRUFKmNG8lh7mO5HiELfr+lLQE7loDVI4QcAxV80HS+RA==
   /dot-prop/5.3.0:
     dependencies:
       is-obj: 2.0.0
@@ -2868,7 +2898,6 @@ packages:
     resolution:
       integrity: sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
   /entities/2.2.0:
-    dev: true
     resolution:
       integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
   /envinfo/7.7.4:
@@ -3913,6 +3942,11 @@ packages:
     dev: true
     resolution:
       integrity: sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
+  /he/1.2.0:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
   /helmet/4.4.1:
     dev: false
     engines:
@@ -3967,6 +4001,18 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-x43mW1Zjqll5id0rerSSANfk25g=
+  /html-to-text/7.0.0:
+    dependencies:
+      deepmerge: 4.2.2
+      he: 1.2.0
+      htmlparser2: 6.0.0
+      minimist: 1.2.5
+    dev: false
+    engines:
+      node: '>=10.23.2'
+    hasBin: true
+    resolution:
+      integrity: sha512-UR/WMSHRN8m+L7qQUhbSoxylwBovNPS+xURn/pHeJvbnemhyMiuPYBTBGqB6s8ajAARN5jzKfF0d3CY86VANpA==
   /htmlnano/0.2.8:
     dependencies:
       cssnano: 4.1.10
@@ -3993,6 +4039,15 @@ packages:
     dev: true
     resolution:
       integrity: sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==
+  /htmlparser2/6.0.0:
+    dependencies:
+      domelementtype: 2.1.0
+      domhandler: 4.0.0
+      domutils: 2.4.4
+      entities: 2.2.0
+    dev: false
+    resolution:
+      integrity: sha512-numTQtDZMoh78zJpaNdJ9MXb2cv5G3jwUoe3dMQODubZvLoGvTE/Ofp6sHvH8OGKcN/8A47pGLi/k58xHP/Tfw==
   /http-errors/1.7.2:
     dependencies:
       depd: 1.1.2
@@ -8102,6 +8157,7 @@ specifiers:
   express-rate-limit: ^5.2.6
   helmet: ^4.4.1
   hpp: ^0.2.3
+  html-to-text: ^7.0.0
   husky: ^4.3.8
   jsonwebtoken: ^8.5.1
   mongoose: 5.11.13
