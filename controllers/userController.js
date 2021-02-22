@@ -44,19 +44,19 @@ export const getMe = (request, response, next) => {
 
 export const uploadUserPhoto = upload.single('photo');
 
-export const resizeUserPhoto = (request, response, next) => {
+export const resizeUserPhoto = catchAsync(async (request, response, next) => {
   if (!request.file) return next();
 
   request.file.filename = `user-${request.user.id}-${Date.now()}.jpeg`;
 
-  sharp(request.file.buffer)
+  await sharp(request.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/img/users/${request.file.filename}`);
 
   next();
-};
+});
 
 export const updateMe = catchAsync(async (request, response, next) => {
   // 1) Error if user posts a password
