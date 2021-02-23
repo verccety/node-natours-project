@@ -21,6 +21,7 @@ dependencies:
   regenerator-runtime: 0.13.7
   sharp: 0.27.1
   slugify: 1.4.6
+  stripe: 8.137.0
   validator: 13.5.2
   xss-clean: 0.1.1
 devDependencies:
@@ -1166,6 +1167,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-gUWhy8s45fQp4PqqKecsnOkdW0kt1IaKjgOIR3HPokkzTmQj9ji2wWFID5THu1MKrtO+d4s2lVrlEhXUsPXSvg==
+  /@types/node/14.14.31:
+    dev: false
+    resolution:
+      integrity: sha512-vFHy/ezP5qI0rFgJ7aQnjDXwAMrG0KqqIH7tQG5PPv3BWBayOPIQNBjVc/P6hhdZfMx51REc6tfDNXHUio893g==
   /@types/normalize-package-data/2.4.0:
     dev: false
     resolution:
@@ -6537,6 +6542,12 @@ packages:
       node: '>=0.6'
     resolution:
       integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
+  /qs/6.9.6:
+    dev: false
+    engines:
+      node: '>=0.6'
+    resolution:
+      integrity: sha512-TIRk4aqYLNoJUbd+g2lEdz5kLWIuTMRagAXxl78Q0RiVjAOugHmeKNGdd3cwo/ktpf9aL9epCfFqWDEKysUlLQ==
   /querystring-es3/0.2.1:
     dev: true
     engines:
@@ -7500,6 +7511,15 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+  /stripe/8.137.0:
+    dependencies:
+      '@types/node': 14.14.31
+      qs: 6.9.6
+    dev: false
+    engines:
+      node: ^8.1 || >=10.*
+    resolution:
+      integrity: sha512-UlxXjff6O+0hGY7DRZZnepZegXfi8KoYKuW4fgMlNIiyvKR/G8EjL13uaqFI31vmVm0WxNvjrBiHd9DFX9rLgA==
   /stylehacks/4.0.3:
     dependencies:
       browserslist: 4.16.3
@@ -8171,5 +8191,6 @@ specifiers:
   regenerator-runtime: ^0.13.7
   sharp: ^0.27.1
   slugify: ^1.4.6
+  stripe: ^8.137.0
   validator: ^13.5.2
   xss-clean: ^0.1.1

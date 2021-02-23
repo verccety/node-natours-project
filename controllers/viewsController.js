@@ -27,7 +27,7 @@ export const getTour = catchAsync(async (request, response, next) => {
     .status(200)
     .set(
       'Content-Security-Policy',
-      "connect-src https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com 'self'"
+      "connect-src   https://*.stripe.com https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com 'self'"
     )
     .render('tour', {
       title: `${tour.name} Tour`,
