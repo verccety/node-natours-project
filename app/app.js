@@ -9,6 +9,7 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
+import cors from 'cors';
 
 import AppError from '../utils/appError.js';
 import globalErrorHandler from '../controllers/errorController.js';
@@ -26,6 +27,15 @@ const app = express();
 app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'views'));
+
+// Access-Control-Allow-Origin *, for simple requests (GET, POST)
+app.use(cors());
+
+// EXAMPLE: api.natours.com,  for front-end natours.com
+// app.use(cors({origin: 'https://natours.com'}))
+
+// HTTP Method: options
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, '..', 'public')));
