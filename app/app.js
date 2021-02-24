@@ -23,6 +23,7 @@ const __dirname = dirname(__filename);
 
 // 1) MIDDLEWARES
 const app = express();
+app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'views'));
 

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import app from './app/app.js';
 
-//Exception handling should be at the top
+// Exception handling should be at the top
 process.on('uncaughtException', (error) => {
   console.log('Unhandled exception, shutting down..');
   console.log(error.name, error.message);
@@ -32,8 +32,16 @@ const server = app.listen(port, () => {
 // Listening to unhandled rejection event => allows to handle all the errors that occur in asynchronous code which were not previously handled.
 process.on('unhandledRejection', (error) => {
   console.log('Unhandled rejection. Shutting down..', error.message);
-  //Shutdown gracefully: first close the server, then shut down the app
+  // Shutdown gracefully: first close the server, then shut down the app
   server.close(() => {
     process.exit(1);
+  });
+});
+
+// Shutdown on SIGTERM event, Heroku restarts server every 24hrs
+process.on('SIGTERM', () => {
+  console.log('SIGTERM Received, shutting down');
+  server.close(() => {
+    console.log('Process terminated');
   });
 });

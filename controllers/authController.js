@@ -11,19 +11,17 @@ const signToken = (id) =>
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-const createSendToken = (user, statusCode, response) => {
+const createSendToken = (user, statusCode, request, response) => {
   const token = signToken(user._id);
-  const cookieOptions = {
+
+  response.cookie('jwt', token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     // cannot manipulate cookie in any way
     httpOnly: true,
-  };
-
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-  response.cookie('jwt', token, cookieOptions);
+    secure: request.secure || request.headers['x-forwarded-proto'] === 'https',
+  });
 
   user.password = undefined;
 
@@ -48,7 +46,7 @@ export const signup = catchAsync(async (request, response, next) => {
   const url = `${request.protocol}://${request.get('host')}/me`;
   await new Email(newUser, url).sendWelcome();
 
-  createSendToken(newUser, 201, response);
+  createSendToken(newUser, 201, request, response);
 });
 
 export const login = catchAsync(async (request, response, next) => {
@@ -67,7 +65,7 @@ export const login = catchAsync(async (request, response, next) => {
     return next(new AppError('Incorrect email or password'), 401); // Specify 'or' to be vague for security reasons
   }
   //3) If ok -> send token
-  createSendToken(user, 200, response);
+  createSendToken(user, 200, request, response);
 });
 
 export const logout = (request, response) => {
@@ -207,7 +205,7 @@ export const resetPassword = catchAsync(async (request, response, next) => {
   // 3) Update changedPasswordAt
 
   // 4) Log the user in
-  createSendToken(user, 200, response);
+  createSendToken(user, 200, request, response);
 });
 
 export const updatePassword = catchAsync(async (request, response, next) => {
@@ -228,5 +226,5 @@ export const updatePassword = catchAsync(async (request, response, next) => {
 
   // 4) Log in user, send JWT
 
-  createSendToken(user, 200, response);
+  createSendToken(user, 200, request, response);
 });
