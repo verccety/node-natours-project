@@ -10,10 +10,13 @@ export const getOverview = catchAsync(async (request, response, next) => {
   // 2) Build tempalate
 
   // 3) Render template
-  response.status(200).render('overview', {
-    title: 'All Tours',
-    tours,
-  });
+  response
+    .status(200)
+    .set('Content-Security-Policy', "connect-src https://*.stripe.com 'self'")
+    .render('overview', {
+      title: 'All Tours',
+      tours,
+    });
 });
 
 export const getTour = catchAsync(async (request, response, next) => {

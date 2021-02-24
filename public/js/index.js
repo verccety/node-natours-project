@@ -62,10 +62,10 @@ if (userPasswordForm) {
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
 if (bookBtn) {
-  bookBtn.addEventListener('click', (event) => {
+  bookBtn.addEventListener('click', async (event) => {
     event.target.textContent = 'Processing...';
     const { tourId } = event.target.dataset;
-    bookTour(tourId);
+    await bookTour(tourId);
     event.target.textContent = 'Book tour now!';
   });
 }
