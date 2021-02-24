@@ -7,7 +7,7 @@ block content
       nav.user-view__menu
         ul.side-nav
           +navItem('#', 'Settings', 'settings', 'true')
-          +navItem('#', 'My bookings', 'briefcase')
+          +navItem('my-tours', 'My bookings', 'briefcase')
           +navItem('#', 'My reviews', 'star')
           +navItem('#', 'Billing', 'credit-card')
         - if (user.role === 'admin')
@@ -44,7 +44,11 @@ block content
                 src=`/img/users/${user.photo}`,
                 alt='User photo'
               )
-              input.form__upload(type='file', accept='image/*', id='photo', name='photo')
+              input#photo.form__upload(
+                type='file',
+                accept='image/*',
+                name='photo'
+              )
               label(for='photo') Choose new photo
             .form__group.right
               button.btn.btn--small.btn--green Save settings

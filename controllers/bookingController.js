@@ -55,3 +55,9 @@ export const createBookingCheckout = catchAsync(
     response.redirect(request.originalUrl.split('?')[0]);
   }
 );
+
+export const getAllBookings = factory.getAll(Tour);
+export const getBooking = factory.getOne(Booking);
+export const createBooking = factory.createOne(Booking);
+export const updateBooking = factory.updateOne(Booking);
+export const deleteBooking = factory.deleteOne(Booking);
