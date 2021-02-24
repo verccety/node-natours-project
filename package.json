@@ -8,7 +8,6 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production&& nodemon server.js",
