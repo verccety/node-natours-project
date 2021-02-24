@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import Stripe from 'stripe';
 import Tour from '../models/tourModel.js';
+import Booking from '../models/bookingModel.js';
 import catchAsync from '../utils/catchAsync.js';
 import * as factory from './handlerFactory.js';
 import AppError from '../utils/appError.js';
@@ -15,7 +16,9 @@ export const getCheckoutSession = catchAsync(
     // 2) Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      success_url: `${request.protocol}://${request.get('host')}/`,
+      success_url: `${request.protocol}://${request.get('host')}/?tour=${
+        request.params.tourId
+      }&user=${request.user.id}&price=${tour.price}`,
       cancel_url: `${request.protocol}://${request.get('host')}/tour/${
         tour.slug
       }`,
@@ -37,5 +40,18 @@ export const getCheckoutSession = catchAsync(
       status: 'success',
       session,
     });
+  }
+);
+
+export const createBookingCheckout = catchAsync(
+  async (request, response, next) => {
+    // Temporary, unsecure!
+    const { tour, user, price } = request.query;
+
+    if (!tour || !user || !price) return next();
+
+    await Booking.create({ tour, user, price });
+
+    response.redirect(request.originalUrl.split('?')[0]);
   }
 );
