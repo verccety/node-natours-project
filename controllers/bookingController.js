@@ -20,7 +20,9 @@ export const getCheckoutSession = catchAsync(
       // success_url: `${request.protocol}://${request.get('host')}/?tour=${
       //   request.params.tourId
       // }&user=${request.user.id}&price=${tour.price}`,
-      success_url: `${request.protocol}://${request.get('host')}/my-tours`,
+      success_url: `${request.protocol}://${request.get(
+        'host'
+      )}/my-tours?alert=booking`,
       cancel_url: `${request.protocol}://${request.get('host')}/tour/${
         tour.slug
       }`,

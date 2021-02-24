@@ -13920,12 +13920,14 @@ parcelRequire = (function (e, r, t, n) {
         };
         exports.hideAlert = e;
         var t = function (t, r) {
+          var o =
+            arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 5;
           e();
-          var o = '<div class="alert alert--'
+          var a = '<div class="alert alert--'
             .concat(t, '">')
             .concat(r, '</div>');
-          document.querySelector('body').insertAdjacentHTML('afterbegin', o),
-            window.setTimeout(e, 5e3);
+          document.querySelector('body').insertAdjacentHTML('afterbegin', a),
+            window.setTimeout(e, 1e3 * o);
         };
         exports.showAlert = t;
       },
@@ -14274,77 +14276,78 @@ parcelRequire = (function (e, r, t, n) {
         require('core-js/stable'), require('regenerator-runtime/runtime');
         var e = require('./login'),
           t = require('./updateSettings'),
-          n = require('./mapbox'),
-          r = require('./stripe');
-        function o(e, t, n, r, o, a, u) {
+          r = require('./mapbox'),
+          n = require('./stripe'),
+          o = require('./alerts');
+        function a(e, t, r, n, o, a, u) {
           try {
-            var d = e[a](u),
-              s = d.value;
-          } catch (i) {
-            return void n(i);
+            var s = e[a](u),
+              d = s.value;
+          } catch (c) {
+            return void r(c);
           }
-          d.done ? t(s) : Promise.resolve(s).then(r, o);
+          s.done ? t(d) : Promise.resolve(d).then(n, o);
         }
-        function a(e) {
+        function u(e) {
           return function () {
             var t = this,
-              n = arguments;
-            return new Promise(function (r, a) {
-              var u = e.apply(t, n);
-              function d(e) {
-                o(u, r, a, d, s, 'next', e);
-              }
+              r = arguments;
+            return new Promise(function (n, o) {
+              var u = e.apply(t, r);
               function s(e) {
-                o(u, r, a, d, s, 'throw', e);
+                a(u, n, o, s, d, 'next', e);
               }
-              d(void 0);
+              function d(e) {
+                a(u, n, o, s, d, 'throw', e);
+              }
+              s(void 0);
             });
           };
         }
-        var u = document.getElementById('map'),
+        var s = document.getElementById('map'),
           d = document.querySelector('.form--login'),
-          s = document.querySelector('.form-user-data'),
+          c = document.querySelector('.form-user-data'),
           i = document.querySelector('.form-user-password'),
-          c = document.querySelector('.nav__el--logout'),
-          m = document.getElementById('book-tour');
-        if (u) {
-          var l = JSON.parse(u.dataset.locations);
-          (0, n.displayMap)(l);
+          m = document.querySelector('.nav__el--logout'),
+          l = document.getElementById('book-tour');
+        if (s) {
+          var p = JSON.parse(s.dataset.locations);
+          (0, r.displayMap)(p);
         }
         d &&
           d.addEventListener('submit', function (t) {
             t.preventDefault();
-            var n = document.getElementById('email').value,
-              r = document.getElementById('password').value;
-            (0, e.login)(n, r);
+            var r = document.getElementById('email').value,
+              n = document.getElementById('password').value;
+            (0, e.login)(r, n);
           }),
-          s &&
-            s.addEventListener(
+          c &&
+            c.addEventListener(
               'submit',
               (function () {
-                var e = a(
-                  regeneratorRuntime.mark(function e(n) {
-                    var r;
+                var e = u(
+                  regeneratorRuntime.mark(function e(r) {
+                    var n;
                     return regeneratorRuntime.wrap(function (e) {
                       for (;;)
                         switch ((e.prev = e.next)) {
                           case 0:
                             return (
-                              n.preventDefault(),
-                              (r = new FormData()).append(
+                              r.preventDefault(),
+                              (n = new FormData()).append(
                                 'name',
                                 document.getElementById('name').value
                               ),
-                              r.append(
+                              n.append(
                                 'email',
                                 document.getElementById('email').value
                               ),
-                              r.append(
+                              n.append(
                                 'photo',
                                 document.getElementById('photo').files[0]
                               ),
                               (e.next = 7),
-                              (0, t.updateSettings)(r, 'data')
+                              (0, t.updateSettings)(n, 'data')
                             );
                           case 7:
                             location.reload();
@@ -14364,19 +14367,19 @@ parcelRequire = (function (e, r, t, n) {
             i.addEventListener(
               'submit',
               (function () {
-                var e = a(
-                  regeneratorRuntime.mark(function e(n) {
-                    var r, o, a;
+                var e = u(
+                  regeneratorRuntime.mark(function e(r) {
+                    var n, o, a;
                     return regeneratorRuntime.wrap(function (e) {
                       for (;;)
                         switch ((e.prev = e.next)) {
                           case 0:
                             return (
-                              n.preventDefault(),
+                              r.preventDefault(),
                               (document.querySelector(
                                 '.btn--save-password'
                               ).textContent = 'Updating...'),
-                              (r = document.getElementById('password-current')
+                              (n = document.getElementById('password-current')
                                 .value),
                               (o = document.getElementById('password').value),
                               (a = document.getElementById('password-confirm')
@@ -14384,7 +14387,7 @@ parcelRequire = (function (e, r, t, n) {
                               (e.next = 7),
                               (0, t.updateSettings)(
                                 {
-                                  passwordCurrent: r,
+                                  passwordCurrent: n,
                                   password: o,
                                   passwordConfirm: a,
                                 },
@@ -14414,13 +14417,40 @@ parcelRequire = (function (e, r, t, n) {
                 };
               })()
             ),
-          c && c.addEventListener('click', e.logout),
-          m &&
-            m.addEventListener('click', function (e) {
-              e.target.textContent = 'Processing...';
-              var t = e.target.dataset.tourId;
-              (0, r.bookTour)(t), (e.target.textContent = 'Book tour now!');
-            });
+          m && m.addEventListener('click', e.logout),
+          l &&
+            l.addEventListener(
+              'click',
+              (function () {
+                var e = u(
+                  regeneratorRuntime.mark(function e(t) {
+                    var r;
+                    return regeneratorRuntime.wrap(function (e) {
+                      for (;;)
+                        switch ((e.prev = e.next)) {
+                          case 0:
+                            return (
+                              (t.target.textContent = 'Processing...'),
+                              (r = t.target.dataset.tourId),
+                              (e.next = 4),
+                              (0, n.bookTour)(r)
+                            );
+                          case 4:
+                            t.target.textContent = 'Book tour now!';
+                          case 5:
+                          case 'end':
+                            return e.stop();
+                        }
+                    }, e);
+                  })
+                );
+                return function (t) {
+                  return e.apply(this, arguments);
+                };
+              })()
+            );
+        var v = document.querySelector('body').dataset.alert;
+        v && (0, o.showAlert)('success', v, 10);
       },
       {
         'core-js/stable': 'n4uP',
@@ -14429,6 +14459,7 @@ parcelRequire = (function (e, r, t, n) {
         './updateSettings': 'FxPS',
         './mapbox': 'g63L',
         './stripe': 'Uj2q',
+        './alerts': 'odIX',
       },
     ],
   },
