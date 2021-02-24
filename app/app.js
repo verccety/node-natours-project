@@ -8,6 +8,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 
 import AppError from '../utils/appError.js';
 import globalErrorHandler from '../controllers/errorController.js';
@@ -74,6 +75,8 @@ app.use((request, response, next) => {
   request.requestTime = new Date().toUTCString();
   next(); // next обязательный параметр для передачи управления по цепочке след. middleware
 });
+
+app.use(compression());
 
 // 2) ROUTE HANDLERS
 
